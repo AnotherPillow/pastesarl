@@ -1,9 +1,20 @@
 @import './fonts.css';
 @import './theme.css';
 
-:root {
-    --header-height: 6em;
-    --main-height: calc(100vh - var(--header-height));
+body, html {
+    /* make it so when it's animated the gap is coloured so it doesn't look like there's a weird gap */
+    background-color: var(--footer-bg);
+}
+
+@property --header-height {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 6em;
+}
+@property --footer-height {
+    syntax: "<length>";
+    inherits: true;
+    initial-value: 3em;
 }
 
 body {
@@ -12,6 +23,19 @@ body {
 
     margin: 0;
     color: var(--text-colour);
+
+    --header-height: 6em;
+    --footer-height: 3em;
+    --main-height: calc(100vh - var(--header-height) - var(--footer-height));
+    
+    transition: --header-height 0.3s ease, --footer-height 0.3s ease;
+    
+    &:has(header.heightless) {
+        --header-height: 0em;
+    }
+    &:has(footer.heightless) {
+        --footer-height: 0em;
+    }
 }
 
 header {
@@ -21,6 +45,8 @@ header {
 
     background-color: var(--header-bg);
     height: var(--header-height);
+
+    overflow: hidden;
     
     #h-1 {
         h1 {
@@ -74,5 +100,29 @@ main {
         border: none;
 
         color: var(--text-colour)
+    }
+}
+
+footer {
+    background-color: var(--footer-bg);
+    height: var(--footer-height);
+
+    display: flex;
+    align-items: center;
+    margin: 4px;
+
+    overflow: hidden;
+
+    button {
+        outline: none;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+
+        color: var(--text-colour);
+
+        &:hover {
+            filter: brightness(0.8);
+        }
     }
 }

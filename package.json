@@ -19,6 +19,7 @@
     "@fontsource-variable/chivo-mono": "^5.2.8",
     "@fontsource-variable/martian-mono": "^5.2.7",
     "@fontsource/sniglet": "^5.2.8",
+    "lucide": "^1.8.0",
     "lz-string": "^1.5.0"
   }
 }
