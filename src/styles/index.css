@@ -28,7 +28,7 @@ body {
     --footer-height: 3em;
     --main-height: calc(100vh - var(--header-height) - var(--footer-height));
     
-    transition: --header-height 0.3s ease, --footer-height 0.3s ease;
+    transition: --header-height 0.3s ease, --footer-height 0.3s ease, height 0.3s ease;
     
     &:has(header.heightless) {
         --header-height: 0em;

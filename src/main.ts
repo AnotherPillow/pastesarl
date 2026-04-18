@@ -12,6 +12,25 @@ import {
 
 const textarea = document.querySelector('#text') as HTMLTextAreaElement
 
+let settings = [0, 0] // [header, footer], 1 = true
+
+const params = new URLSearchParams(location.search)
+const settingsParam = params.get('s')
+
+if (settingsParam) {
+    const decoded = JSON.parse(atob(settingsParam))
+    console.log(decoded)
+    settings = decoded.map(Number)
+}
+
+if (!settings[0]) { // header
+    document.querySelector('header')?.classList.remove('heightless')
+}
+
+if (!settings[1]) { // footer
+    document.querySelector('footer')?.classList.remove('heightless')
+}
+
 document.querySelector('#copy')?.addEventListener('click', () => {
     const compressed = compressToEncodedURIComponent(textarea.value)
     history.pushState(null, "", `#${compressed}`)
@@ -22,9 +41,16 @@ document.querySelector('#copy')?.addEventListener('click', () => {
 document.querySelector('#hide-top')?.addEventListener('click', () => {
     const classes = document.querySelector('header')?.classList!
     classes.toggle('heightless')
+    settings[0] = 1 - settings[0]!
 
-    history.pushState(null, "", `?h=${classes.contains('heightless')}#${location.hash}`)
-    // navigator.clipboard.writeText(`${location.href.split('#')[0]}`)
+    pushSettings()
+})
+document.querySelector('#hide-bottom')?.addEventListener('click', () => {
+    const classes = document.querySelector('footer')?.classList!
+    classes.toggle('heightless')
+    settings[1] = 1 - settings[1]!
+
+    pushSettings()
 })
 
 const hash = location.hash.slice(1)
@@ -33,10 +59,6 @@ if (hash) {
     textarea.value = content
 }
 
-const params = new URLSearchParams(location.search)
-const headerHidden = params.get('h')
-const footerHidden = params.get('f') // don't bother with a button for it
-if (headerHidden == 'true') 
-    document.querySelector('header')?.classList.add('heightless')
-if (footerHidden == 'true') 
-    document.querySelector('footer')?.classList.add('heightless')
+function pushSettings() {
+    history.pushState(null, "", `?s=${btoa(JSON.stringify(settings))}#${location.hash}`)
+}
