@@ -12,7 +12,7 @@ import {
 
 const textarea = document.querySelector('#text') as HTMLTextAreaElement
 
-let settings = [0, 0] // [header, footer], 1 = true
+let settings = [0, 0, 0] // [header, footer, disabled], 1 = true
 
 const params = new URLSearchParams(location.search)
 const settingsParam = params.get('s')
@@ -29,6 +29,10 @@ if (!settings[0]) { // header
 
 if (!settings[1]) { // footer
     document.querySelector('footer')?.classList.remove('heightless')
+}
+
+if (settings[2]) {
+    document.querySelector('textarea')!.disabled = true
 }
 
 document.querySelector('#copy')?.addEventListener('click', () => {
@@ -49,6 +53,13 @@ document.querySelector('#hide-bottom')?.addEventListener('click', () => {
     const classes = document.querySelector('footer')?.classList!
     classes.toggle('heightless')
     settings[1] = 1 - settings[1]!
+
+    pushSettings()
+})
+document.querySelector('#disable-input')?.addEventListener('click', () => {
+    const ta = document.querySelector('textarea')!
+    ta.disabled = !ta.disabled
+    settings[2] = 1 - settings[1]!
 
     pushSettings()
 })
