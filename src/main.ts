@@ -71,5 +71,5 @@ if (hash) {
 }
 
 function pushSettings() {
-    history.pushState(null, "", `?s=${btoa(JSON.stringify(settings))}#${location.hash}`)
+    history.pushState(null, "", `?s=${btoa(JSON.stringify(settings))}#${location.hash.replace(/^#/, "")}`)
 }
